@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 
 import { hashUserPassword } from "@/lib/hash";
-import { createAuthSession } from "@/lib/auth";
+import { createAuthSession, destroySession } from "@/lib/auth";
 import { getUserByEmail } from "@/lib/user";
 import { verifyPassword } from "@/lib/hash";
 import { createUser } from "@/lib/user";
@@ -78,4 +78,9 @@ export async function auth(mode, prevState, formData) {
   }
 
   return signup(prevState, formData);
+}
+
+export async function logout() {
+  await destroySession();
+  redirect("/");
 }
