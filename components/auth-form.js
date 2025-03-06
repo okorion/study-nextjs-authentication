@@ -2,13 +2,13 @@
 import Link from "next/link";
 import { useFormState } from "react-dom";
 
-import { signup } from "@/actions/auth-actions";
+import { auth } from "@/actions/auth-actions";
 
 export default function AuthForm({ mode }) {
-  const [formState, formAction] = useFormState(signup, {});
+  const [formState, formAction] = useFormState(auth.bind(null, mode), {});
 
   return (
-    <form id="auth-form">
+    <form id="auth-form" action={formAction}>
       <div>
         <img src="/images/auth-icon.jpg" alt="A lock icon" />
       </div>
@@ -22,12 +22,14 @@ export default function AuthForm({ mode }) {
       </p>
       {formState.errors && (
         <ul id="form-errors">
-          {Objects.keys(formState.errors).map((error) => (
+          {Object.keys(formState.errors).map((error) => (
             <li key={error}>{formState.errors[error]}</li>
           ))}
         </ul>
       )}
-      <p>{mode === "login" ? "Login" : "Create Account"}</p>
+      <button type="submit">
+        {mode === "login" ? "Login" : "Create Account"}
+      </button>
       <p>
         {mode === "login" && (
           <Link href="/?mode=signup">Create an account.</Link>
