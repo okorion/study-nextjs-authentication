@@ -1,5 +1,7 @@
 "use server";
 
+import { hashUserPassword } from "@/lib/hash";
+
 async function signup(prevState, formData) {
   const email = formData.get("email");
   const password = formData.get("password");
@@ -17,4 +19,7 @@ async function signup(prevState, formData) {
   if (Object.keys(errors).length > 0) {
     return { errors };
   }
+
+  const hashedPassword = hashUserPassword(password);
+  createUser(email, hashedPassword);
 }
